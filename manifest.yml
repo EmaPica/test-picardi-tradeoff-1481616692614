@@ -6,7 +6,6 @@ applications:
 - services:
   - tradeoff-analytics-standard-service
   name: test-picardi-tradeoff
-  hostname: test-picardi-tradeoff
   command: node app.js
   path: .
   memory: 128M
