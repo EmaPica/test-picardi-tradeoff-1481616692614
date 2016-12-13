@@ -19,8 +19,10 @@ tradeoffAnalyticsConfig.setupToken(app, serviceCredentials);
 // to package.json, and use:
 // tradeoffAnalyticsConfig.setupProxy(app, serviceCredentials);
 
-var port = process.env.VCAP_APP_PORT || 8000;
-app.listen(port);
-console.log('listening at:', port);
+var port = process.env.VCAP_APP_PORT || 2000;
+app.set('port', port);
+http.createServer(app).listen(app.get('port'), function(){
+console.log('Express server listening on port ' + app.get('port'));
+});
 
 
