@@ -20,7 +20,6 @@ tradeoffAnalyticsConfig.setupToken(app, serviceCredentials);
 
 rackup config.ru -E production -p $PORT
 var port = (process.env.VCAP_APP_PORT || 61857);
-var host = (process.env.VCAP_APP_HOST || 'localhost');
 app.set('port', port);
 http.createServer(app).listen(app.get('port'), function(){
 console.log('Express server listening on port ' + app.get('port'));
