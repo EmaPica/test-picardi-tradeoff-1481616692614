@@ -9,4 +9,4 @@ applications:
   command: node app.js
   path: .
   memory: 128M
-  rackup config.ru -E production -p $PORT
+ 
