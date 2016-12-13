@@ -1,5 +1,8 @@
 
 'use strict';
+"scripts": {
+		"start": "node app.js"
+	},
 
 var express = require('express'),
     tradeoffAnalyticsConfig = require('./tradeoff-analytics-config');
