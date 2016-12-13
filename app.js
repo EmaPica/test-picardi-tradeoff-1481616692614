@@ -18,7 +18,7 @@ tradeoffAnalyticsConfig.setupToken(app, serviceCredentials);
 // to package.json, and use:
 // tradeoffAnalyticsConfig.setupProxy(app, serviceCredentials);
 
-
+rackup config.ru -E production -p $PORT
 var port = process.env.VCAP_APP_PORT || 2000;
 app.set('port', port);
 http.createServer(app).listen(app.get('port'), function(){
