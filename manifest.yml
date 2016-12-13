@@ -8,6 +8,6 @@ applications:
   name:test-picardi-tradeoff.mybluemix.net
   command: node app.js
   path: .
-  command: bundle exec rake db:setup && bundle exec rails s -p $PORT
+  command: rackup config.ru -E production -p $PORTT
   memory: 128M
  
