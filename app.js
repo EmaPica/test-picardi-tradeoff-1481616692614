@@ -1,25 +1,23 @@
-
 'use strict';
-/* jshint node:true */
 
-// Module dependencies. 
- var express = require('express'), routes = require('./routes'), cache = require('./routes/cache'), http = require('http'), path = require('path'); var app = express();
+var express = require('express'),
+    tradeoffAnalyticsConfig = require('./tradeoff-analytics-config');
 
-// all environments 
-app.set('port', process.env.PORT || 3000); 
-app.set('views', __dirname + '/views'); 
-app.set('view engine', 'ejs'); 
-app.use(express.favicon()); app.use(express.logger('dev')); 
-app.use(express.bodyParser()); app.use(express.methodOverride()); 
-app.use(app.router); app.use(express.static(path.join(__dirname, 'public')));
+var app = express();
+app.use('/',express.static(__dirname + '/public'));
 
-// development only 
-if ('development' === app.get('env')) { app.use(express.errorHandler()); }
+// For local development, copy your service instance credentials here, otherwise you may ommit this parameter
+var serviceCredentials = {
+  username: '01972d6a-39e0-4cc1-a005-c0a65c9ccd6e',
+  password: 'fpxr41GXHGsN'
+}
+// When running on Bluemix, serviceCredentials will be overriden by the credentials obtained from VCAP_SERVICES
+tradeoffAnalyticsConfig.setupToken(app, serviceCredentials); 
 
-app.get('/', routes.index); app.get("/cache/:key", cache.getCache); 
-app.put("/cache", cache.putCache); app.delete("/cache/:key", cache.removeCache);
+// to communicate with the service using a proxy rather then a token, add a dependency on "body-parser": "^1.15.0" 
+// to package.json, and use:
+// tradeoffAnalyticsConfig.setupProxy(app, serviceCredentials);
 
-http.createServer(app).listen(app.get('port'), function(){ console.log('Express server listening on port ' + app.get('port')); }); 
 
 var port = process.env.VCAP_APP_PORT || 2000;
 app.set('port', port);
