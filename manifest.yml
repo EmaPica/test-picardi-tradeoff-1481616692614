@@ -5,7 +5,7 @@
 applications:
 - services:
   - tradeoff-analytics-standard-service
-  name: test-picardi-tradeoff
+  name: test-picardi-tradeoff.mybluemix.net
   command: node app.js
   path: .
   memory: 128M
