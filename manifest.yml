@@ -1,10 +1,11 @@
+ declared-services:
+  tradeoff-analytics-standard-service:
+    label: tradeoff_analytics
+    plan: standard
 applications:
-- path: .
-  memory: 256M
-  instances: 1
-  domain: mybluemix.net
-  name: test-picardi-tradeoff.mybluemix.net
-  host: test-picardi-tradeoff
-  disk_quota: 1024M
-  services:
-  - Tradeoff Analytics-bw
+- services:
+  - tradeoff-analytics-standard-service
+  name:test-picardi-tradeoff.mybluemix.net
+  command: node app.js
+  path: .
+  memory: 128M
