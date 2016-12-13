@@ -1,31 +1,37 @@
-/*eslint-env node*/
+var express = require('express');
 
-//------------------------------------------------------------------------------
-// node.js starter application for Bluemix
-//------------------------------------------------------------------------------
+// cfenv provides access to your Cloud Foundry environment
+// for more info, see: https://www.npmjs.com/package/cfenv
+var cfenv = require('cfenv');
 
-// This application uses express as its web server
-// for more info, see: http://expressjs.com
-'use strict';
-
-var express = require('express'),
-    tradeoffAnalyticsConfig = require('./tradeoff-analytics-config');
-
+// create a new express server
 var app = express();
-app.use('/',express.static(__dirname + '/public'));
 
-// For local development, copy your service instance credentials here, otherwise you may ommit this parameter
-var serviceCredentials = {
-  username: '01972d6a-39e0-4cc1-a005-c0a65c9ccd6e',
-  password: 'fpxr41GXHGsN'
+// serve the files out of ./public as our main files
+app.use(express.static(__dirname + '/public'));
+app.set('port', process.env.PORT);
+
+// get the app environment from Cloud Foundry
+var appEnv = cfenv.getAppEnv();
+
+System-Provided:
+{
+"VCAP_SERVICES": {
+  "tradeoff_analytics": [{
+      "credentials": {
+        "url": "https://gateway.watsonplatform.net/tradeoff-analytics/api",
+        "password": "fpxr41GXHGsN",
+        "username": "01972d6a-39e0-4cc1-a005-c0a65c9ccd6e"
+      },
+    "label": "tradeoff-analytics",
+    "name": "tradeoff-analytics-standard-service",
+    "plan": "standard"
+ }]
 }
-// When running on Bluemix, serviceCredentials will be overriden by the credentials obtained from VCAP_SERVICES
-tradeoffAnalyticsConfig.setupToken(app, serviceCredentials); 
+}
 
-// to communicate with the service using a proxy rather then a token, add a dependency on "body-parser": "^1.15.0" 
-// to package.json, and use:
-// tradeoffAnalyticsConfig.setupProxy(app, serviceCredentials);
-
-var port = process.env.VCAP_APP_PORT || 2000;
-app.listen(port);
-console.log('listening at:', port);
+// start server on the specified port and binding host
+app.listen(appEnv.port, '0.0.0.0', function() {
+  // print a message when the server starts listening
+  console.log("server starting on " + appEnv.url);
+});
